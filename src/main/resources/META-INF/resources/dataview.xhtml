@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en-us"
+
+      xmlns:h="jakarta.faces.html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pe="http://primefaces.org/ui/extensions"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core"
+>
+
+<h:head>
+    <title>.:: JoinFaces Example ::.</title>
+    <meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+    <link href="#{resource['images/favicon.ico']}" rel="shortcut icon"/>
+</h:head>
+
+<h:body>
+    <pe:layout fullPage="true" >
+        <pe:layoutPane id="mainLayoutPane" position="center">
+            <h:form id="studentDeletionForm">
+
+                <h:dataTable id="dataTable" value="#{dataView.students}" var="student" border="1" cellpadding="5">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        <h:outputText value="#{student.id}" > </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">name</f:facet>
+                        <h:outputText value="#{student.name}" > </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">balance</f:facet>
+                        <h:outputText value="#{student.balance}" > </h:outputText>
+                    </h:column>
+                    <h:column>
+                        <h:commandButton value="Delete" action="#{dataView.delete(student.id)}">
+                            <f:ajax render="studentDeletionForm" execute="@this" />
+                        </h:commandButton>
+                    </h:column>
+
+                   </h:dataTable>
+            </h:form>
+            <br/>
+            <h:form id="studentManagementForm">
+                <h3>Add New Student</h3>
+
+                <h:panelGrid columns="3" cellpadding="5">
+                    <h:outputLabel for="newNameInput"> Name: </h:outputLabel>
+                    <p:inputText id="newNameInput" value="#{dataView.newStudentName}" required="true" />
+                    <h:message for="newNameInput" style="color: red;"/>
+
+                    <h:outputLabel for="newBalanceInput"> Balance: </h:outputLabel>
+                    <p:inputNumber id="newBalanceInput" value="#{dataView.newStudentBalance}" required="true" decimalPlaces="2" />
+                    <h:message for="newBalanceInput" style="color: red;"/>
+
+                    <h:outputLabel /> <h:commandButton value="Save Student" action="#{dataView.save()}">
+                    <f:ajax render="mainLayoutPane" execute="@form" />
+                </h:commandButton>
+                    <h:outputLabel /> </h:panelGrid>
+            </h:form>
+        </pe:layoutPane >
+    </pe:layout>
+</h:body>
+</html>
